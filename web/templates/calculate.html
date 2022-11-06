@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="d-flex justify-content-left">Here are your results:</h3></a>
+{% if locations|length > 0 %}
+{% if locations|length > 5 %}
+<a href="/"><h5 class="d-flex justify-content-left">We found lots of results, perhaps you should reduce the travel time:</h5></a>
+{% else %}
+<h5 class="d-flex justify-content-left">These look like some good locations for you:</h5>
+{% endif %}
+{% for location in locations %}
+<div class="text-justify">
+    <p>{{ location }}</p>
+</div>
+{% endfor %}
+{% else %}
+<div class="text-justify">
+    <a href="/"><p>Unfortunately we didn't find any suitable locations, but you can click here to try again with a larger travel time</p></a>
+</div>
+{% endif %}
+{% endblock %}
