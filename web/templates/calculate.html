@@ -11,7 +11,7 @@
 <h5 class="d-flex justify-content-left">Click on each result to see what is in the area</h5>
 {% for location in locations %}
 <div class="text-justify">
-    <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z" target="_blank" ><p>{{ location.text_location }}</p></a>
+    <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z" target="_blank" rel="noopener noreferrer"><p>{{ location.text_location }}</p></a>
 </div>
 {% endfor %}
 {% else %}
