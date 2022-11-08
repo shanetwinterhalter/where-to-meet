@@ -6,7 +6,7 @@
 <form action = "calculate" method = "GET">
 <div class="form-group" id="input_form">
     <div class="input-group mb-3">
-        <input type="number" class="form-control" id="travel_time" name="travelTime" placeholder="Travel time, minutes (must be <60)" min="1" max="60" step="1">
+        <input type="number" class="form-control" id="travel_time" name="travelTime" placeholder="Travel time, minutes (must be <{{max_time}})" step="1">
     </div>
     <div class="input-group mb-3">
         <input type="text" class="form-control" id="input_address" name="address" placeholder="Enter Address">

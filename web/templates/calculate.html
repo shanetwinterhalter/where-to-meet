@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3 class="d-flex justify-content-left">Here are your results:</h3></a>
-{% if locations|length > 0 %}
-{% if locations|length > 5 %}
-<h5 class="d-flex justify-content-left"><a href="/"></a>We found lots of results, you might want to reduce the travel time - click here to search again</a></h5>
-{% else %}
-<h5 class="d-flex justify-content-left">These look like some good locations for you</h5>
+{% if not success %}
+<h3 class="d-flex justify-content-left">Sorry we've had an issue!</h3></a>
+<div class="justify-content-left">
+    <p>We couldn't find these addresses:</p>
+</div>
+{% for location in locations %}
+{% if not location.encoding_success %}
+<div class="text-justify">
+    <p>{{ location.source_location }}</p>
+</div>
 {% endif %}
-<h5 class="d-flex justify-content-left">Click on each result to see what is in the area</h5>
+{% endfor %}
+<a href="/"><h3 class="d-flex justify-content-left">Click here to try again</h3></a>
+{% else %}
+<h3 class="d-flex justify-content-left">Here are your results within {{ travel_time }} minutes</h3></a>
+{% if locations[0].success %}
+{% if locations|length > 5 %}
+<h5 class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce the travel time - click here to search again</a></h5>
+{% endif %}
+<h5 class="d-flex justify-content-left">Click on each result to see what is in the area:</h5>
 {% for location in locations %}
 <div class="text-justify">
     <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z" target="_blank" rel="noopener noreferrer"><p>{{ location.text_location }}</p></a>
@@ -16,7 +28,8 @@
 {% endfor %}
 {% else %}
 <div class="text-justify">
-    <a href="/"><p>Unfortunately we didn't find any suitable locations, but you can click here to try again with a larger travel time</p></a>
+    <a href="/"><h5 class="d-flex justify-content-left">Unfortunately we didn't find any suitable locations, but you can click here to try again with a larger travel time</h5></a>
 </div>
+{% endif %}
 {% endif %}
 {% endblock %}

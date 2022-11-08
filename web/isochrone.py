@@ -5,13 +5,35 @@ from datetime import datetime
 os.environ["TRAVELTIME_ID"] = '9e92dc47'
 os.environ["TRAVELTIME_KEY"] = 'ea73781a50a84f6135b7a46ec5b3d03a'
 
+# These values don't exist in lat/long
+lat_error_value = 181
+long_error_value = 181
+
 
 def location_coords(source_locations):
     geoencoded_locations = []
+    success = True
     for item in source_locations:
-        geoencoded_locations.append(
-            ttpy.geocoding(item)['features'][0]['geometry']['coordinates'])
-    return geoencoded_locations
+        if item != "":
+            encoded_data = ttpy.geocoding(item)
+            if len(encoded_data['features']) > 0:
+                geoencoded_locations.append({
+                    "source_location": item,
+                    "encoding_success": True,
+                    "latitude": encoded_data['features'][0][
+                        'geometry']['coordinates'][1],
+                    "longitude": encoded_data['features'][0][
+                        'geometry']['coordinates'][0]
+                    })
+            else:
+                success = False
+                geoencoded_locations.append({
+                    "source_location": item,
+                    "encoding_success": False,
+                    "latitude": lat_error_value,
+                    "longitude": long_error_value
+                })
+    return success, geoencoded_locations
 
 
 def gen_search_data(travel_time, source_coords):
@@ -22,7 +44,7 @@ def gen_search_data(travel_time, source_coords):
             'id': str(idx),
             'departure_time':  datetime.utcnow().isoformat(),
             'travel_time': travel_time * 60,
-            'coords': {'lat': loc[1], 'lng': loc[0]},
+            'coords': {'lat': loc['latitude'], 'lng': loc['longitude']},
             'transportation': {'type': "public_transport"},
         })
         search_ids.append(str(idx))
@@ -39,13 +61,6 @@ def generate_intersection(search_ids):
 def obtain_map_data(searches, intersection):
     return ttpy.time_map(departure_searches=searches,
                          intersections=[intersection])
-
-
-def find_intersection(travel_time, source_locations):
-    source_coords = location_coords(source_locations)
-    searches, search_ids = gen_search_data(travel_time, source_coords)
-    intersection = generate_intersection(search_ids)
-    return obtain_map_data(searches, intersection)
 
 
 def extract_intersection_coords(intersection):
@@ -65,7 +80,7 @@ def find_shell_centre(intersect_coords):
     sum_y = 0
     total_points = len(intersect_coords)
     if total_points == 0:
-        return (-1, -1)
+        return (lat_error_value, long_error_value)
     for point in intersect_coords:
         sum_x += point[0]
         sum_y += point[1]
@@ -82,25 +97,43 @@ def find_shell_centres(intersect_coords):
 def location_strings(coords):
     location_strings = []
     for item in coords:
-        if item[0] != -1 and item[1] != -1:
+        if item[0] != lat_error_value and item[1] != long_error_value:
+            text_location = ttpy.geocoding_reverse(
+                item[0], item[1])
             location_strings.append({
-                "text_location": ttpy.geocoding_reverse(
-                    item[0], item[1])['features'][0]['properties']['name'],
+                "text_location": text_location[
+                                    'features'][0]['properties']['name'],
+                "success": True,
                 "latitude": item[0],
                 "longitude": item[1]
                 })
         else:
-            print("Error - no intersection found")
             location_strings.append({
                 "text_location": "No intersection found",
-                "latitude": item[0],
-                "longitude": item[1]
+                "success": False,
+                "latitude": lat_error_value,
+                "longitude": long_error_value
             })
     return location_strings
 
 
 def main(travel_time, source_locations):
-    intersection = find_intersection(travel_time, source_locations)
-    intersection_coords = extract_intersection_coords(intersection)
-    shell_centres = find_shell_centres(intersection_coords)
-    return location_strings(shell_centres)
+    # Convert locations to lat & long
+    success, source_coords = location_coords(source_locations)
+    if success:
+        # Create search json for each location
+        searches, search_ids = gen_search_data(travel_time, source_coords)
+        # Create intersection json for all searches
+        intersect_json = generate_intersection(search_ids)
+        # Send API request to obtain data
+        intersection = obtain_map_data(searches, intersect_json)
+        # Get coordinates of each intersection shell
+        intersection_coords = extract_intersection_coords(intersection)
+        # Find the centre of each intersection shell
+        shell_centres = find_shell_centres(intersection_coords)
+        # Return results
+        return success, location_strings(shell_centres)
+    else:
+        # If fails, return source_coords to help user figure
+        # out what they did wrong
+        return success, source_coords
