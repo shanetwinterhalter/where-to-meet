@@ -83,10 +83,19 @@ def location_strings(coords):
     location_strings = []
     for item in coords:
         if item[0] != -1 and item[1] != -1:
-            location_strings.append(ttpy.geocoding_reverse(
-                item[0], item[1])['features'][0]['properties']['name'])
+            location_strings.append({
+                "text_location": ttpy.geocoding_reverse(
+                    item[0], item[1])['features'][0]['properties']['name'],
+                "latitude": item[0],
+                "longitude": item[1]
+                })
         else:
             print("Error - no intersection found")
+            location_strings.append({
+                "text_location": "No intersection found",
+                "latitude": item[0],
+                "longitude": item[1]
+            })
     return location_strings
 
 

@@ -4,13 +4,14 @@
 <h3 class="d-flex justify-content-left">Here are your results:</h3></a>
 {% if locations|length > 0 %}
 {% if locations|length > 5 %}
-<a href="/"><h5 class="d-flex justify-content-left">We found lots of results, perhaps you should reduce the travel time:</h5></a>
+<h5 class="d-flex justify-content-left"><a href="/"></a>We found lots of results, you might want to reduce the travel time - click here to search again</a></h5>
 {% else %}
-<h5 class="d-flex justify-content-left">These look like some good locations for you:</h5>
+<h5 class="d-flex justify-content-left">These look like some good locations for you</h5>
 {% endif %}
+<h5 class="d-flex justify-content-left">Click on each result to see what is in the area</h5>
 {% for location in locations %}
 <div class="text-justify">
-    <p>{{ location }}</p>
+    <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z" target="_blank" ><p>{{ location.text_location }}</p></a>
 </div>
 {% endfor %}
 {% else %}
