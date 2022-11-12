@@ -50,12 +50,9 @@
         if(elementNumber <= 10) {
             newRowId = "input_address_" + String(elementNumber)
             $('#first_address_input_group').clone(true, true)
-                                           .find("input:text")
-                                           .val("")
-                                           .end()
-                                           .find("#input_address_1")
-                                           .attr('id', 'input_address_' + elementNumber)
-                                           .end()
+                                           .removeAttr('id')
+                                           .find("input:text").val("").end()
+                                           .find("#input_address_1").attr('id', 'input_address_' + elementNumber).end()
                                            .appendTo("#input_form");
         } else {
             $('#input_form').append('<p class="text-danger font-weight-bold">You can only have up to 10 addresses</p>');
@@ -84,7 +81,7 @@
             deferRequestBy: 300,
             transformResult: transformGeocodingResult,
         }
-        $(selector).devbridgeAutocomplete(options);
+        $(selector).autocomplete(options);
     }
 
     // Transform the Geocoding result to what autocomplete expects. 
