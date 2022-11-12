@@ -2,9 +2,6 @@ import traveltimepy as ttpy
 import os
 from datetime import datetime
 
-os.environ["TRAVELTIME_ID"] = '9e92dc47'
-os.environ["TRAVELTIME_KEY"] = 'ea73781a50a84f6135b7a46ec5b3d03a'
-
 # These values don't exist in lat/long
 lat_error_value = 181
 long_error_value = 181
