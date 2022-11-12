@@ -28,7 +28,10 @@ def calculate_distance():
         args = request.args
         travel_time = validate_travel_time(
                         args.get("travelTime", default=default_time, type=int))
-        addresses = zip(args.getlist("address"), args.getlist("transportType"))
+        addresses = args.getlist("address")
+        transport_type = args.getlist("transportType")
+        addresses = [(address, transport_type[idx])
+                     for idx, address in enumerate(addresses) if address != ""]
         success, locations = get_crossover(travel_time, addresses)
         return render_template('calculate.html', success=success,
                                locations=locations, travel_time=travel_time)
