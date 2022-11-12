@@ -14,20 +14,22 @@
         </div>
         <div class="input-group mb-3">
             <div class="col-xs">
-                <select class="form-select">
-                    <option selected>Public Transport</option>
-                    <option value="Driving">Driving</option>
-                    <option value="Walking">Walking</option>
+                <select class="form-select" name="transportType">
+                    <option selected value="public_transport">Public Transport</option>
+                    <option value="driving">Driving</option>
+                    <option value="cycling">Cycling</option>
+                    <option value="walking">Walking</option>
                 </select>
             </div>
             <input type="text" class="form-control" id="input_address" name="address" placeholder="Enter Address">
         </div>
         <div class="input-group mb-3">
             <div class="col-xs">
-                <select class="form-select">
-                    <option selected>Public Transport</option>
-                    <option value="Driving">Driving</option>
-                    <option value="Walking">Walking</option>
+                <select class="form-select" name="transportType">
+                    <option selected value="public_transport">Public Transport</option>
+                    <option value="driving">Driving</option>
+                    <option value="cycling">Cycling</option>
+                    <option value="walking">Walking</option>
                 </select>
             </div>
             <input type="text" class="form-control" id="input_address" name="address" placeholder="Enter Address">
@@ -47,10 +49,11 @@
         newRowAdd =
         '<div class="input-group mb-3">' +
         '<div class="col-xs">' +
-        '<select class="form-select">' +
-        '<option selected>Public Transport</option>' +
-        '<option value="Driving">Driving</option>' +
-        '<option value="Walking">Walking</option>' +
+        '<select class="form-select" name="transportType">' +
+        '<option selected value="public_transport">Public Transport</option>' +
+        '<option value="driving">Driving</option>' +
+        '<option value="cycling">Cycling</option>' +
+        '<option value="walking">Walking</option>' +
         '</select>' +
         '</div>' +
         '<input type="text" class="form-control" id="input_address" name="address" placeholder="Enter Address">' +

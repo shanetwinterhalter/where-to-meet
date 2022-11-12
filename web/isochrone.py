@@ -18,7 +18,8 @@ def location_coords(source_locations):
             encoded_data = ttpy.geocoding(item)
             if len(encoded_data['features']) > 0:
                 geoencoded_locations.append({
-                    "source_location": item,
+                    "source_location": item[0],
+                    "travel_method": item[1],
                     "encoding_success": True,
                     "latitude": encoded_data['features'][0][
                         'geometry']['coordinates'][1],
@@ -28,7 +29,8 @@ def location_coords(source_locations):
             else:
                 success = False
                 geoencoded_locations.append({
-                    "source_location": item,
+                    "source_location": item[0],
+                    "travel_method": item[1],
                     "encoding_success": False,
                     "latitude": lat_error_value,
                     "longitude": long_error_value
@@ -45,7 +47,7 @@ def gen_search_data(travel_time, source_coords):
             'departure_time':  datetime.utcnow().isoformat(),
             'travel_time': travel_time * 60,
             'coords': {'lat': loc['latitude'], 'lng': loc['longitude']},
-            'transportation': {'type': "public_transport"},
+            'transportation': {'type': loc['travel_method']},
         })
         search_ids.append(str(idx))
     return searches, search_ids
