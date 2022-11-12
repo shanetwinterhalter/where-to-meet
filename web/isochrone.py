@@ -1,5 +1,4 @@
 import traveltimepy as ttpy
-import os
 from datetime import datetime
 
 # These values don't exist in lat/long
