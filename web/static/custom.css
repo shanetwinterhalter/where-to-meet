@@ -14,3 +14,8 @@
     height: 100%;
     overflow-x: hidden;
 }
+
+.left-side-dropdown {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
