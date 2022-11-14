@@ -1,14 +1,7 @@
-var authHeaders = {
-    "X-Application-Id": "9e92dc47",
-    "X-Api-Key": "ea73781a50a84f6135b7a46ec5b3d03a",
-    "Accept-Language": "en-US"
-};
-
 var options = {
     // The url for the Autocomplete service
-    serviceUrl: "https://api.traveltimeapp.com/v4/geocoding/search",
+    serviceUrl: "/autocomplete",
     ajaxSettings: {
-        headers: authHeaders,
         dataType: "json"
     },
     lookupLimit: 5,
