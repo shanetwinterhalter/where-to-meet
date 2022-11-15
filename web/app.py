@@ -1,9 +1,9 @@
 import traveltimepy as ttpy
 import app_config
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, request
 from isochrone import main as get_crossover
-from utils import validate_travel_time
+from utils import validate_travel_time, validate_addresses
 
 app = Flask(__name__)
 
@@ -20,13 +20,16 @@ def calculate_distance():
         # Default time is validated later, so just set to any int for now
         travel_time = validate_travel_time(
                         args.get("travelTime", default=0, type=int))
-        addresses = args.getlist("address")
-        transport_type = args.getlist("transportType")
-        addresses = [(address, transport_type[idx])
-                     for idx, address in enumerate(addresses) if address != ""]
-        success, locations = get_crossover(travel_time, addresses)
-        return render_template('calculate.html', success=success,
-                               locations=locations, travel_time=travel_time)
+        valid, addresses = validate_addresses(args.getlist("address"),
+                                              args.getlist("transportType"))
+        if valid:
+            success, locations = get_crossover(travel_time, addresses)
+            return render_template('calculate.html',
+                                   success=success,
+                                   locations=locations,
+                                   travel_time=travel_time)
+        else:
+            return redirect("/")
 
 
 @app.route('/autocomplete', methods=['GET'])
