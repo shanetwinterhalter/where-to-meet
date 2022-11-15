@@ -11,8 +11,8 @@ app = Flask(__name__)
 @app.route("/")
 def front_page():
     try:
-        submit_error = request.args['submit_error'] 
-    except:
+        submit_error = request.args['submit_error']
+    except ValueError:
         submit_error = False
     return render_template('front_page.html',
                            max_time=app_config.max_time,
