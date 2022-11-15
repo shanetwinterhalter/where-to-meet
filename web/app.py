@@ -1,7 +1,7 @@
 import traveltimepy as ttpy
 import app_config
 
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 from isochrone import main as get_crossover
 from utils import validate_travel_time, validate_addresses
 
@@ -10,7 +10,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def front_page():
-    return render_template('front_page.html', max_time=app_config.max_time)
+    try:
+        submit_error = request.args['submit_error'] 
+    except:
+        submit_error = False
+    return render_template('front_page.html',
+                           max_time=app_config.max_time,
+                           submit_error=submit_error)
 
 
 @app.route('/calculate', methods=['GET'])
@@ -29,7 +35,7 @@ def calculate_distance():
                                    locations=locations,
                                    travel_time=travel_time)
         else:
-            return redirect("/")
+            return redirect(url_for('.front_page', submit_error=True))
 
 
 @app.route('/autocomplete', methods=['GET'])
