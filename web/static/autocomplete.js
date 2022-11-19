@@ -19,10 +19,16 @@ function transformGeocodingResult(response) {
 
 jQuery($ => {
     let inputTemplate = $('#address-input-template').html();
+    let tooManyAddresses = $('#max-addresses-template').html();
 
     $('#extra_address').on('click', () => {
-        let $content = $(inputTemplate).appendTo('#input_form');
-        $content.find('.input_address').autocomplete(options)
+        let addressCount = $('.input-group').length
+        if (addressCount < 13) {
+            let $content = $(inputTemplate).appendTo('#input_form');
+            $content.find('.input_address').autocomplete(options)
+        } else if ($('#address-warning').length == 0) {
+            $(tooManyAddresses).appendTo('#input_form');
+        }
     })
 
     $('.input_address').autocomplete(options)
