@@ -21,7 +21,7 @@ def front_page():
 
 @app.route('/calculate', methods=['POST'])
 def calculate_distance():
-    args = request.args
+    args = request.values
     # Default time is validated later, so just set to any int for now
     travel_time = validate_travel_time(
         args.get("travelTime", default=0, type=int))
