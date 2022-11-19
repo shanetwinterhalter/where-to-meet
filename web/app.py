@@ -8,34 +8,33 @@ from utils import validate_travel_time, validate_addresses
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def front_page():
-    try:
+    if request.method == 'POST':
         submit_error = request.args['submit_error']
-    except ValueError:
+    else:
         submit_error = False
     return render_template('front_page.html',
                            max_time=app_config.max_time,
                            submit_error=submit_error)
 
 
-@app.route('/calculate', methods=['GET'])
+@app.route('/calculate', methods=['POST'])
 def calculate_distance():
-    if request.method == 'GET':
-        args = request.args
-        # Default time is validated later, so just set to any int for now
-        travel_time = validate_travel_time(
-                        args.get("travelTime", default=0, type=int))
-        valid, addresses = validate_addresses(args.getlist("address"),
-                                              args.getlist("transportType"))
-        if valid:
-            success, locations = get_crossover(travel_time, addresses)
-            return render_template('calculate.html',
-                                   success=success,
-                                   locations=locations,
-                                   travel_time=travel_time)
-        else:
-            return redirect(url_for('.front_page', submit_error=True))
+    args = request.args
+    # Default time is validated later, so just set to any int for now
+    travel_time = validate_travel_time(
+        args.get("travelTime", default=0, type=int))
+    valid, addresses = validate_addresses(args.getlist("address"),
+                                          args.getlist("transportType"))
+    if valid:
+        success, locations = get_crossover(travel_time, addresses)
+        return render_template('calculate.html',
+                               success=success,
+                               locations=locations,
+                               travel_time=travel_time)
+    else:
+        return redirect(url_for('.front_page', code=307, submit_error=True))
 
 
 @app.route('/autocomplete', methods=['GET'])
