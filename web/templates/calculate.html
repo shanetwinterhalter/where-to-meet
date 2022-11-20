@@ -1,35 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if not success %}
-<h3 class="d-flex justify-content-left">Sorry we've had an issue!</h3></a>
-<div class="justify-content-left">
-    <p>We couldn't find these addresses:</p>
-</div>
-{% for location in locations %}
-{% if not location.encoding_success %}
-<div class="text-justify">
-    <p>{{ location.source_location }}</p>
-</div>
-{% endif %}
-{% endfor %}
-<a href="/"><h3 class="d-flex justify-content-left">Click here to try again</h3></a>
-{% else %}
-<h3 class="d-flex justify-content-left">Here are your results within {{ travel_time }} minutes</h3></a>
-{% if locations[0].success %}
-{% if locations|length > 5 %}
-<h5 class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce the travel time - click here to search again</a></h5>
-{% endif %}
-<h5 class="d-flex justify-content-left">Click on each result to see what is in the area:</h5>
-{% for location in locations %}
-<div class="text-justify">
-    <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z" target="_blank" rel="noopener noreferrer"><p>{{ location.text_location }}</p></a>
-</div>
-{% endfor %}
-{% else %}
-<div class="text-justify">
-    <a href="/"><h5 class="d-flex justify-content-left">Unfortunately we didn't find any suitable locations, but you can click here to try again with a larger travel time</h5></a>
-</div>
-{% endif %}
-{% endif %}
+<!--<div class="row justify-content-md-center">
+    <div class="col gy-5 gx-3">
+        <div class="card container shadow" style="max-width: 48rem;">
+            {% if not success %}
+            <h3 class="d-flex justify-content-left">Sorry we've had an issue!</h3></a>
+            <div class="justify-content-left">
+                <p>We couldn't find these addresses:</p>
+            </div>
+            {% for location in locations %}
+            {% if not location.encoding_success %}
+            <div class="text-justify">
+                <p>{{ location.source_location }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <a href="/">
+                <h3 class="d-flex justify-content-left">Click here to try again</h3>
+            </a>
+            {% else %}
+            <h3 class="d-flex justify-content-left">Here are your results within {{ travel_time }} minutes</h3></a>
+            {% if locations[0].success %}
+            {% if locations|length > 5 %}
+            <h5 class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce
+                    the travel time - click here to search again</a></h5>
+            {% endif %}
+            <h5 class="d-flex justify-content-left">Click on each result to see what is in the area:</h5>
+            {% for location in locations %}
+            <div class="text-justify">
+                <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z"
+                    target="_blank" rel="noopener noreferrer">
+                    <p>{{ location.text_location }}</p>
+                </a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="text-justify">
+                <a href="/">
+                    <h5 class="d-flex justify-content-left">Unfortunately we didn't find any suitable locations, but
+                        you can click here to try again with a larger travel time</h5>
+                </a>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>-->
+<script>
+    // Initialize and add the map
+    function initMap() {
+        const centre = { lat: 51.50528, lng: -0.18810 };
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: centre,
+        });
+        // Add markers
+        {% for location in locations %}
+        new google.maps.Marker({
+            position: { lat: {{ location.latitude }}, lng: {{ location.longitude }} },
+            map: map,
+        });
+        {% endfor %}
+    }
+
+    map = window.initMap = initMap;
+</script>
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-XQz0rr568MYkgfD83m0hC89Imy8vW8A&callback=initMap&v=weekly"
+defer
+></script>
+
 {% endblock %}

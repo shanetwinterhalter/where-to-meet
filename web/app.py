@@ -7,7 +7,7 @@ from utils import validate_travel_time, validate_addresses
 
 app = Flask(__name__)
 
-debug = True
+debug = False
 
 
 @app.route("/", methods=['GET', 'POST'])

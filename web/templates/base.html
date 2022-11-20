@@ -25,14 +25,8 @@
     <title>{% block title %} {% endblock %}</title>
   </head>
   <body>
-    <div class="gradient-custom fill">
-      <div class="row justify-content-md-center">
-        <div class="col gy-5 gx-3">
-          <div class="card container shadow" style="max-width: 48rem;">
-            {% block content %} {% endblock %}
-          </div>
-        </div>
-      </div>
+    <div class="gradient-custom fill" id="map">
+      {% block content %} {% endblock %}
     </div>
 
     <!-- Optional JavaScript -->
