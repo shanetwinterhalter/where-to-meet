@@ -7,6 +7,8 @@ from utils import validate_travel_time, validate_addresses
 
 app = Flask(__name__)
 
+debug = True
+
 
 @app.route("/", methods=['GET', 'POST'])
 def front_page():
@@ -21,6 +23,12 @@ def front_page():
 
 @app.route('/calculate', methods=['POST'])
 def calculate_distance():
+    if debug:
+        import debug_vars as debug_vars
+        return render_template('calculate.html',
+                               success=debug_vars.success,
+                               locations=debug_vars.debug_locations,
+                               travel_time=debug_vars.travel_time)
     args = request.values
     # Default time is validated later, so just set to any int for now
     travel_time = validate_travel_time(
