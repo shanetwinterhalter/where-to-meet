@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!--<div class="row justify-content-md-center">
-    <div class="col gy-5 gx-3">
+<div class="row justify-content-sm-left">
+    <div class="col gy-5 gx-3" id="info">
         <div class="card container shadow" style="max-width: 48rem;">
             {% if not success %}
             <h3 class="d-flex justify-content-left">Sorry we've had an issue!</h3></a>
@@ -46,7 +46,9 @@
             {% endif %}
         </div>
     </div>
-</div>-->
+    <div id="map" class="fill position-absolute"></div>
+</div>
+
 <script>
     // Initialize and add the map
     function initMap() {
@@ -66,10 +68,11 @@
     }
 
     map = window.initMap = initMap;
+    document.getElementById("map").style.zIndex = "1";
+    document.getElementById("info").style.zIndex= "3";
 </script>
 <script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-XQz0rr568MYkgfD83m0hC89Imy8vW8A&callback=initMap&v=weekly"
-defer
-></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-XQz0rr568MYkgfD83m0hC89Imy8vW8A&callback=initMap&v=weekly"
+    defer></script>
 
 {% endblock %}
