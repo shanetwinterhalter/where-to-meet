@@ -50,9 +50,9 @@
 <script>
     // Initialize and add the map
     function initMap() {
-        const centre = { lat: 51.50528, lng: -0.18810 };
+        const centre = { lat: {{ centre.latitude }}, lng: {{ centre.longitude }} };
         const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 13,
+            zoom: {{ centre.zoom }},
             center: centre,
         });
         // Add markers

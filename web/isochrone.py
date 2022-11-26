@@ -34,6 +34,21 @@ def location_coords(source_locations):
     return success, geoencoded_locations
 
 
+def calculate_centre(addresses):
+    sum_lat = 0
+    sum_lng = 0
+    no_addresses = len(addresses)
+    for address in addresses:
+        print(address)
+        sum_lat += float(address['latitude'])
+        sum_lng += float(address['longitude'])
+    return {
+        "latitude": sum_lat/no_addresses,
+        "longitude": sum_lng/no_addresses,
+        "zoom": 12
+    }
+
+
 def gen_search_data(travel_time, source_coords):
     searches = []
     search_ids = []
@@ -118,6 +133,7 @@ def location_strings(coords):
 def main(travel_time, source_locations):
     # Convert locations to lat & long
     success, source_coords = location_coords(source_locations)
+    centre = calculate_centre(source_coords)
     if success:
         # Create search json for each location
         searches, search_ids = gen_search_data(travel_time, source_coords)
@@ -130,8 +146,8 @@ def main(travel_time, source_locations):
         # Find the centre of each intersection shell
         shell_centres = find_shell_centres(intersection_coords)
         # Return results
-        return success, location_strings(shell_centres)
+        return success, location_strings(shell_centres), centre
     else:
         # If fails, return source_coords to help user figure
         # out what they did wrong
-        return success, source_coords
+        return success, source_coords, centre

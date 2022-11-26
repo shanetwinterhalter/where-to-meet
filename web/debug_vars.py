@@ -12,5 +12,10 @@ debug_locations = [
         'longitude': -0.5927810454117648
     },
 ]
+centre = {
+        "latitude": 51.50323,
+        "longitude": -0.56,
+        "zoom": 14
+}
 success = True
 travel_time = 45

@@ -28,6 +28,7 @@ def calculate_distance():
         return render_template('calculate.html',
                                success=debug_vars.success,
                                locations=debug_vars.debug_locations,
+                               centre=debug_vars.centre,
                                travel_time=debug_vars.travel_time)
     args = request.values
     # Default time is validated later, so just set to any int for now
@@ -36,10 +37,11 @@ def calculate_distance():
     valid, addresses = validate_addresses(args.getlist("address"),
                                           args.getlist("transportType"))
     if valid:
-        success, locations = get_crossover(travel_time, addresses)
+        success, locations, centre = get_crossover(travel_time, addresses)
         return render_template('calculate.html',
                                success=success,
                                locations=locations,
+                               centre=centre,
                                travel_time=travel_time)
     else:
         return redirect(url_for('.front_page', code=307, submit_error=True))
