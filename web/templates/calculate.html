@@ -1,52 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-sm-left">
-    <div class="col gy-5 gx-3" id="info">
-        <div class="card container shadow" style="max-width: 48rem;">
-            {% if not success %}
-            <h3 class="d-flex justify-content-left">Sorry we've had an issue!</h3></a>
-            <div class="justify-content-left">
-                <p>We couldn't find these addresses:</p>
-            </div>
-            {% for location in locations %}
-            {% if not location.encoding_success %}
-            <div class="text-justify">
-                <p>{{ location.source_location }}</p>
-            </div>
-            {% endif %}
-            {% endfor %}
-            <a href="/">
-                <h3 class="d-flex justify-content-left">Click here to try again</h3>
-            </a>
-            {% else %}
-            <h3 class="d-flex justify-content-left">Here are your results within {{ travel_time }} minutes</h3></a>
-            {% if locations[0].success %}
-            {% if locations|length > 5 %}
-            <h5 class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce
-                    the travel time - click here to search again</a></h5>
-            {% endif %}
-            <h5 class="d-flex justify-content-left">Click on each result to see what is in the area:</h5>
-            {% for location in locations %}
-            <div class="text-justify">
-                <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z"
-                    target="_blank" rel="noopener noreferrer">
-                    <p>{{ location.text_location }}</p>
-                </a>
-            </div>
-            {% endfor %}
-            {% else %}
-            <div class="text-justify">
+<div class="row" style="--bs-gutter-x: 0;">
+    <div class="col gy-2 gx-5" id="info">
+        <div class="card shadow" style="max-width: 33vh;">
+            <div id="card_content" class="container gy-3">
+                {% if not success %}
+                <h3 class="d-flex justify-content-left">Sorry we've had an issue!</h3>
+                <div class="justify-content-left">
+                    <p>We couldn't find these addresses:</p>
+                </div>
+                {% for location in locations %}
+                {% if not location.encoding_success %}
+                <div class="text-justify">
+                    <p>{{ location.source_location }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
                 <a href="/">
-                    <h5 class="d-flex justify-content-left">Unfortunately we didn't find any suitable locations, but
-                        you can click here to try again with a larger travel time</h5>
+                    <h3 class="d-flex justify-content-left">Click here to try again</h3>
                 </a>
+                {% else %}
+                <h5 class="d-flex justify-content-left">Here's some places we found within {{ travel_time }} minutes:</h5>
+                {% if locations[0].success %}
+                {% if locations|length > 5 %}
+                <h5 class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce
+                        the travel time - click here to search again</a></h5>
+                {% endif %}
+                {% for location in locations %}
+                <div class="text-justify">
+                    <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z"
+                        target="_blank" rel="noopener noreferrer">
+                        <p>{{ location.text_location }}</p>
+                    </a>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="text-justify">
+                    <a href="/">
+                        <h5 class="d-flex justify-content-left">Unfortunately we didn't find any suitable locations, but
+                            you can click here to try again with a larger travel time</h5>
+                    </a>
+                </div>
+                {% endif %}
+                {% endif %}
             </div>
-            {% endif %}
-            {% endif %}
         </div>
     </div>
-    <div id="map" class="fill position-absolute"></div>
+    <div id="map" class="fill position-fixed"></div>
 </div>
 
 <script>

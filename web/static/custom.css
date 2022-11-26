@@ -11,8 +11,11 @@
 
 .fill {
     min-height: 100vh;
+    min-width: 100vh;
+    width: 110%;
     height: 100%;
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .left-side-dropdown {
