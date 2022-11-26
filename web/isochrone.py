@@ -39,7 +39,6 @@ def calculate_centre(addresses):
     sum_lng = 0
     no_addresses = len(addresses)
     for address in addresses:
-        print(address)
         sum_lat += float(address['latitude'])
         sum_lng += float(address['longitude'])
     return {
