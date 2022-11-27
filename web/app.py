@@ -3,7 +3,8 @@ import app_config
 
 from flask import Flask, render_template, redirect, request, url_for
 from isochrone import main as get_crossover
-from utils import validate_travel_time, validate_addresses
+from request import validate_request
+from response import generate_response
 
 app = Flask(__name__)
 
@@ -23,26 +24,16 @@ def front_page():
 
 @app.route('/calculate', methods=['POST'])
 def calculate_distance():
-    if debug:
-        import debug_vars as debug_vars
-        return render_template('calculate.html',
-                               success=debug_vars.success,
-                               locations=debug_vars.debug_locations,
-                               centre=debug_vars.centre,
-                               travel_time=debug_vars.travel_time)
-    args = request.values
-    # Default time is validated later, so just set to any int for now
-    travel_time = validate_travel_time(
-        args.get("travelTime", default=0, type=int))
-    valid, addresses = validate_addresses(args.getlist("address"),
-                                          args.getlist("transportType"))
-    if valid:
-        success, locations, centre = get_crossover(travel_time, addresses)
+    request_data = validate_request(request.values)
+    print(request_data)
+    # response_data = generate_response(request_data)
+    if request_data['valid_input']:
+        success, locations, centre = get_crossover(request_data['travel_time'], request_data['addresses'])
         return render_template('calculate.html',
                                success=success,
                                locations=locations,
                                centre=centre,
-                               travel_time=travel_time)
+                               travel_time=request_data['travel_time'])
     else:
         return redirect(url_for('.front_page', code=307, submit_error=True))
 

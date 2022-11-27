@@ -19,3 +19,12 @@ centre = {
 }
 success = True
 travel_time = 45
+
+request = {
+        "travel_time": 20,
+        "addresses": [
+            ('London Paddington station, Praed Street, Paddington, London, Greater London, England, W2 1HQ, United Kingdom', 'public_transport'),
+            ('Trafalgar Square, Seven Dials, Covent Garden, City of Westminster, Greater London, England, WC2N 5DS, United Kingdom', 'public_transport')
+        ],
+        "valid_input": True
+    }
