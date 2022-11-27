@@ -1,3 +1,20 @@
+# Request Data
+
+request = {
+        "travel_time": 20,
+        "addresses": [
+            ('London Paddington station, Praed Street, Paddington, London,'
+             'Greater London, England, W2 1HQ, United Kingdom',
+             'public_transport'),
+            ('Trafalgar Square, Seven Dials, Covent Garden, City of '
+             'Westminster, Greater London, England, WC2N 5DS, United Kingdom',
+             'public_transport')
+        ],
+        "valid_input": True
+    }
+
+# Response Data
+
 debug_locations = [
     {
         'text_location': 'Premier Goldberg, Canal Wharf, Canal Wharf Industrial Estate, Wexham, Slough, Buckinghamshire, England, SL3 6EG, United Kingdom',  # noqa
@@ -17,14 +34,11 @@ centre = {
         "longitude": -0.56,
         "zoom": 14
 }
-success = True
 travel_time = 45
 
-request = {
-        "travel_time": 20,
-        "addresses": [
-            ('London Paddington station, Praed Street, Paddington, London, Greater London, England, W2 1HQ, United Kingdom', 'public_transport'),
-            ('Trafalgar Square, Seven Dials, Covent Garden, City of Westminster, Greater London, England, WC2N 5DS, United Kingdom', 'public_transport')
-        ],
-        "valid_input": True
+response = {
+        "travel_time": travel_time,
+        "locations": debug_locations,
+        "map_centre": centre,
+        "success": True
     }
