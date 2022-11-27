@@ -119,13 +119,6 @@ def location_strings(coords):
                 "latitude": item[0],
                 "longitude": item[1]
                 })
-        else:
-            location_strings.append({
-                "text_location": "No intersection found",
-                "success": False,
-                "latitude": lat_error_value,
-                "longitude": long_error_value
-            })
     return location_strings
 
 

@@ -12,5 +12,5 @@ def generate_response(request_data):
         "travel_time": request_data['travel_time'],
         "locations": locations,
         "map_centre": map_centre,
-        "success": success
+        "source_coords_found": success
     }

@@ -20,14 +20,14 @@ debug_locations = [
         'text_location': 'Premier Goldberg, Canal Wharf, Canal Wharf '
         'Industrial Estate, Wexham, Slough, Buckinghamshire, England, '
         'SL3 6EG, United Kingdom',
-        'success': True,
+        'encoding_success': True,
         'latitude': 51.50905373214288,
         'longitude': -0.5408464724999998
     },
     {
         'text_location': 'Slough Bus Station, Brunel Way, Slough, '
         'England, SL1 1FQ, United Kingdom',
-        'success': True,
+        'encoding_success': True,
         'latitude': 51.51103561176474,
         'longitude': -0.5927810454117648
     },
@@ -43,5 +43,5 @@ response = {
         "travel_time": travel_time,
         "locations": debug_locations,
         "map_centre": centre,
-        "success": True
+        "source_coords_found": True
     }

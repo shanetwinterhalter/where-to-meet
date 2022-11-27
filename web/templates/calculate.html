@@ -5,49 +5,47 @@
     <div class="col gy-2 gx-5" id="info">
         <div class="card shadow" style="max-width: 33vh;">
             <div id="card_content" class="container gy-3">
-                {% if not response_data.success %}
-                <h3 class="d-flex justify-content-left">Sorry we've had an issue!</h3>
+                {% if not response_data.source_coords_found %}
                 <div class="justify-content-left">
-                    <p>We couldn't find these addresses:</p>
+                    <p>We couldn't find some addresses:</p>
                 </div>
-                {% for location in response_data.locations %}
-                {% if not location.encoding_success %}
+                    {% for location in response_data.locations %}
+                    {% if not location.encoding_success %}
                 <div class="text-justify">
                     <p>{{ location.source_location }}</p>
                 </div>
-                {% endif %}
-                {% endfor %}
+                    {% endif %}
+                    {% endfor %}
                 <a href="/">
-                    <h3 class="d-flex justify-content-left">Click here to try again</h3>
+                    <p class="d-flex justify-content-left">Click here to try again</p>
                 </a>
                 {% else %}
-                <h5 class="d-flex justify-content-left">Here's some places we found within {{ response_data.travel_time }} minutes:</h5>
-                {% if response_data.locations[0].success %}
-                {% if response_data.locations|length > 5 %}
-                <h5 class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce
-                        the travel time - click here to search again</a></h5>
-                {% endif %}
-                {% for location in response_data.locations %}
+                    {% if response_data.locations|length == 0 %}
+                <div class="text-justify">
+                    <a href="/">
+                        <p class="d-flex justify-content-left">We didn't find any suitable locations, click here to try again with a larger travel time</p>
+                    </a>
+                </div>
+                    {% elif response_data.locations|length > 5 %}
+                <p class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce
+                        the travel time - click here to search again</a></p>
+                    {% endif %}
+                    {% if response_data.locations|length > 0 %}
+                <p class="d-flex justify-content-left">Here's some places we found within {{ response_data.travel_time }} minutes:</p>
+                        {% for location in response_data.locations %}
                 <div class="text-justify">
                     <a href="https://www.google.com/maps/@{{ location.latitude }},{{ location.longitude }},16z"
                         target="_blank" rel="noopener noreferrer">
                         <p>{{ location.text_location }}</p>
                     </a>
                 </div>
-                {% endfor %}
-                {% else %}
-                <div class="text-justify">
-                    <a href="/">
-                        <h5 class="d-flex justify-content-left">Unfortunately we didn't find any suitable locations, but
-                            you can click here to try again with a larger travel time</h5>
-                    </a>
-                </div>
-                {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
     </div>
-    {% if response_data.success %}
+    {% if response_data.source_coords_found %}
     <div id="map" class="fill position-fixed"></div>
     {% endif %}
 </div>
