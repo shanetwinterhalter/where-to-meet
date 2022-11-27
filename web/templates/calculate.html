@@ -66,6 +66,12 @@
             map: map,
         });
         {% endfor %}
+        {% for source_location in response_data.source_addresses %}
+        new google.maps.Marker({
+            position: { lat: {{ source_location.latitude }}, lng: {{ source_location.longitude }} },
+            map: map,
+        });
+        {% endfor %}
     }
 
     map = window.initMap = initMap;

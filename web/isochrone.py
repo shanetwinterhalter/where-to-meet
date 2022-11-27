@@ -125,6 +125,7 @@ def location_strings(coords):
 def main(travel_time, source_locations):
     # Convert locations to lat & long
     success, source_coords = location_coords(source_locations)
+    print(source_coords)
     centre = calculate_centre(source_coords)
     if success:
         # Create search json for each location
@@ -138,8 +139,8 @@ def main(travel_time, source_locations):
         # Find the centre of each intersection shell
         shell_centres = find_shell_centres(intersection_coords)
         # Return results
-        return success, location_strings(shell_centres), centre
+        return success, source_coords, location_strings(shell_centres), centre
     else:
         # If fails, return source_coords to help user figure
         # out what they did wrong
-        return success, source_coords, centre
+        return success, source_coords, [], centre
