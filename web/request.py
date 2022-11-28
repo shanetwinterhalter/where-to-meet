@@ -12,9 +12,14 @@ def validate_travel_time(travel_time):
 
 
 def validate_addresses(address_list, transport_type_list):
-    addresses = [(address, transport_type_list[idx])
-                 for idx, address in enumerate(address_list)
-                 if address != ""]
+    addresses = [
+        {
+            "address": address,
+            "transport_type": transport_type_list[idx]
+        }
+        for idx, address in enumerate(address_list)
+        if (address != "") and transport_type_list[idx]
+        in app_config.valid_transport_types]
     return addresses
 
 
@@ -28,5 +33,4 @@ def validate_request(input_data):
     return {
         "travel_time": travel_time,
         "addresses": addresses,
-        "valid_input": True if len(addresses) > 0 else False
     }

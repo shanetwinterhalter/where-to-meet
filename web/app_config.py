@@ -7,3 +7,6 @@ default_time = 30
 request_debug = False
 # Whether to use debug response data
 response_debug = False
+
+# List of supported transport methods
+valid_transport_types = ["public_transport", "driving", "cycling", "walking"]

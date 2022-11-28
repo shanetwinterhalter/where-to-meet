@@ -1,4 +1,4 @@
-from isochrone import main as calculate_results
+from travel_time import location_coords, calculate_centre, calculate_results
 from app_config import response_debug
 from debug_vars import response as debug_response
 
@@ -6,12 +6,14 @@ from debug_vars import response as debug_response
 def generate_response(request_data):
     if response_debug:
         return debug_response
-    success, source_coords, locations, map_centre = calculate_results(
-        request_data['travel_time'], request_data['addresses'])
+    travel_time = request_data['travel_time']
+    source_coords, error_addresses = location_coords(request_data['addresses'])
+    map_centre = calculate_centre(source_coords)
+    locations = calculate_results(travel_time, source_coords)
     return {
-        "travel_time": request_data['travel_time'],
+        "travel_time": travel_time,
         "source_addresses": source_coords,
-        "locations": locations,
+        "error_addresses": error_addresses,
         "map_centre": map_centre,
-        "source_coords_found": success
+        "result_locations": locations
     }

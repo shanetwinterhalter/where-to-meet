@@ -22,7 +22,7 @@ def front_page():
 @app.route('/calculate', methods=['POST'])
 def calculate_distance():
     request_data = validate_request(request.values)
-    if request_data['valid_input']:
+    if len(request_data['addresses']) > 0:
         response_data = generate_response(request_data)
         return render_template('calculate.html',
                                response_data=response_data)
