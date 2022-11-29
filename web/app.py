@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def front_page():
     if request.method == 'POST':
-        submit_error = request.args['submit_error']
+        submit_error = True
     else:
         submit_error = False
     return render_template('front_page.html',
@@ -27,7 +27,7 @@ def calculate_distance():
         return render_template('calculate.html',
                                response_data=response_data)
     else:
-        return redirect(url_for('.front_page', code=307, submit_error=True))
+        return redirect(url_for('.front_page'), code=307)
 
 
 @app.route('/autocomplete', methods=['GET'])

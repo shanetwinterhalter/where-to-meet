@@ -11,7 +11,9 @@
                 <div>
                     <!-- Content here -->
                     <p>Add your desired travel time, and some addresses to get a few suggested meeting places inbetween</p>
-                    {% if submit_error %}<p class="text-danger">You need to add some addresses</p>{% endif %}
+                    {% if submit_error %}
+                    <p class="text-danger">You need to add some addresses</p>
+                    {% endif %}
                     <form action="calculate" method="POST">
                         <div class="form-group" id="input_form">
                             <div class="input-group mb-3">
