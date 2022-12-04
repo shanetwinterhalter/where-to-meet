@@ -51,23 +51,25 @@
 <script>
     // Initialize and add the map
     function initMap() {
+        var bounds = new google.maps.LatLngBounds();
         const centre = { lat: {{ response_data.map_centre.latitude }}, lng: {{ response_data.map_centre.longitude }} };
         const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: {{ response_data.map_centre.zoom }},
+            //zoom: {{ response_data.map_centre.zoom }},
             center: centre,
             disableDefaultUI: true,
         });
         // Add source markers
         {% for source_location in response_data.source_addresses %}
-        new google.maps.Marker({
+        const source_address_{{ loop.index }} = new google.maps.Marker({
             position: { lat: {{ source_location.latitude }}, lng: {{ source_location.longitude }} },
             map: map,
         });
+        bounds.extend(source_address_{{ loop.index }}.getPosition())
         {% endfor %}
         // Add shell overlays
         {% for shell in response_data.result_locations %}
-        const shell{{loop.index}}_coords = {{shell.shell_edges | safe}}
-        const shell{{loop.index}} = new google.maps.Polygon({
+        const shell{{ loop.index }}_coords = {{shell.shell_edges | safe}}
+        const shell{{ loop.index }} = new google.maps.Polygon({
             paths: shell{{loop.index}}_coords,
             strokeColor: "#878787",
             strokeOpacity: 0.8,
@@ -77,6 +79,7 @@
         })
         shell{{loop.index}}.setMap(map);
         {% endfor %}
+        map.fitBounds(bounds, 96);
     }
 
     map = window.initMap = initMap;
