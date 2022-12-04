@@ -60,8 +60,8 @@ def _format_shell_coords(shell):
     shell_coords = []
     for coord in shell:
         shell_coords.append({
-            "latitude": coord[0],
-            "longitude": coord[1]
+            "lat": coord[0],
+            "lng": coord[1]
         })
     return shell_coords
 
@@ -69,6 +69,8 @@ def _format_shell_coords(shell):
 def _parse_map_data(intersection_data):
     results = []
     intersection_coords = _extract_intersection_coords(intersection_data)
+    if intersection_coords == [[]]:
+        return []
     for shell in intersection_coords:
         centre_lat, centre_lng = _find_shell_centre(shell)
         centre_location = _get_location_string(centre_lat, centre_lng)
