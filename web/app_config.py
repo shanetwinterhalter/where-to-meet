@@ -4,7 +4,7 @@ max_time = 60
 default_time = 30
 
 # Whether to use the debug request data
-request_debug = False
+request_debug = True
 # Whether to use debug response data
 response_debug = False
 
