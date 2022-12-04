@@ -1,5 +1,5 @@
 from travel_time import location_coords, calculate_centre, calculate_results
-from app_config import response_debug
+from app_config import response_debug, maps_api_key
 from debug_vars import response as debug_response
 
 
@@ -15,5 +15,6 @@ def generate_response(request_data):
         "source_addresses": source_coords,
         "error_addresses": error_addresses,
         "map_centre": map_centre,
-        "result_locations": locations
+        "result_locations": locations,
+        "maps_api_key": maps_api_key
     }

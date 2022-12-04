@@ -1,3 +1,5 @@
+from app_config import maps_api_key
+
 # Example Request Data
 
 request = {
@@ -195,4 +197,5 @@ response = {
         "error_addresses": error_addresses,
         "map_centre": map_centre,
         "result_locations": result_locations,
+        "maps_api_key": maps_api_key
     }

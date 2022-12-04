@@ -107,6 +107,7 @@ This is the JSON response schema from the server to the client.
                 }
             ]
         }
-    ]
+    ],
+    "maps_api_key": "Google Maps API key"
 }
 ```

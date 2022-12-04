@@ -84,7 +84,7 @@
     document.getElementById("info").style.zIndex= "3";
 </script>
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-XQz0rr568MYkgfD83m0hC89Imy8vW8A&callback=initMap&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key={{ response_data.maps_api_key }}&callback=initMap&v=weekly"
     defer></script>
 
 {% endblock %}
