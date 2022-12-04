@@ -9,9 +9,9 @@ max_time = 60
 default_time = 30
 
 # Whether to use the debug request data
-request_debug = True
+request_debug = False
 # Whether to use debug response data
-response_debug = True
+response_debug = False
 
 # List of supported transport methods
 valid_transport_types = ["public_transport", "driving", "cycling", "walking"]
