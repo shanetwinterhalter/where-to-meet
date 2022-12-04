@@ -2,7 +2,8 @@ import app_config
 from debug_vars import request as debug_request
 
 
-def validate_travel_time(travel_time):
+def validate_travel_time(hours, mins):
+    travel_time = hours * 60 + mins
     if travel_time > app_config.max_time:
         return app_config.max_time
     elif travel_time < 1:
@@ -26,7 +27,9 @@ def validate_addresses(address_list, transport_type_list):
 def validate_request(input_data):
     if app_config.request_debug:
         return debug_request
-    travel_time = validate_travel_time(input_data.get("travelTime",
+    travel_time = validate_travel_time(input_data.get("travelTimeHours",
+                                       default=0, type=int),
+                                       input_data.get("travelTimeMins",
                                        default=0, type=int))
     addresses = validate_addresses(input_data.getlist("address"),
                                    input_data.getlist("transportType"))
