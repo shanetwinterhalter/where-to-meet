@@ -1,5 +1,5 @@
 requests
 flask
-traveltimepy
+traveltimepy==1.0.0
 gunicorn
 gevent
