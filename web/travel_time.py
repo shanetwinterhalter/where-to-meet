@@ -1,4 +1,3 @@
-import traveltimepy as ttpy
 from datetime import datetime
 
 
@@ -24,9 +23,11 @@ def _generate_intersection(search_ids):
     }
 
 
-def _obtain_map_data(searches, intersection):
-    return ttpy.time_map(departure_searches=searches,
-                         intersections=[intersection])
+def _obtain_map_data(sdk, searches, intersection):
+    return sdk.time_map(arrival_searches=[],
+                        departure_searches=searches,
+                        unions=[],
+                        intersections=[intersection])
 
 
 def _extract_intersection_coords(intersection):
@@ -51,8 +52,8 @@ def _find_shell_centre(intersect_coords):
     return (sum_x/total_points, sum_y/total_points)
 
 
-def _get_location_string(lat, lng):
-    return ttpy.geocoding_reverse(lat, lng)['features'][0][
+def _get_location_string(sdk, lat, lng):
+    return sdk.geocoding_reverse(lat, lng).dict()['features'][0][
         'properties']['label']
 
 
@@ -66,14 +67,15 @@ def _format_shell_coords(shell):
     return shell_coords
 
 
-def _parse_map_data(intersection_data):
+def _parse_map_data(sdk, intersection_data):
     results = []
-    intersection_coords = _extract_intersection_coords(intersection_data)
+    intersection_coords = _extract_intersection_coords(
+        intersection_data.dict())
     if intersection_coords == [[]]:
         return []
     for shell in intersection_coords:
         centre_lat, centre_lng = _find_shell_centre(shell)
-        centre_location = _get_location_string(centre_lat, centre_lng)
+        centre_location = _get_location_string(sdk, centre_lat, centre_lng)
         shell_coords = _format_shell_coords(shell)
         results.append({
             "centre_location": centre_location,
@@ -84,7 +86,7 @@ def _parse_map_data(intersection_data):
     return results
 
 
-def calculate_results(travel_time, source_coords):
+def calculate_results(sdk, travel_time, source_coords):
     if len(source_coords) == 0:
         return {}
     # Create search json for each location
@@ -92,17 +94,17 @@ def calculate_results(travel_time, source_coords):
     # Create intersection json for all searches
     intersect_json = _generate_intersection(search_ids)
     # Send API request to obtain data
-    intersection_data = _obtain_map_data(searches, intersect_json)
+    intersection_data = _obtain_map_data(sdk, searches, intersect_json)
     # Parse map data & return
-    return _parse_map_data(intersection_data)
+    return _parse_map_data(sdk, intersection_data)
 
 
-def location_coords(source_locations):
+def location_coords(sdk, source_locations):
     geoencoded_locations = []
     geoencoding_failed_locations = []
     for item in source_locations:
         if item != "":
-            encoded_data = ttpy.geocoding(item['address'])
+            encoded_data = sdk.geocoding(item['address']).dict()
             if len(encoded_data['features']) > 0:
                 geoencoded_locations.append({
                     "source_location": item['address'],
