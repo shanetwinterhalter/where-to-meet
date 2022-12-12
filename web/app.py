@@ -1,9 +1,9 @@
-import traveltimepy as ttpy
 import app_config
 
 from flask import Flask, render_template, redirect, request, url_for
 from request import validate_request
 from response import generate_response
+from traveltimepy.sdk import TravelTimeSdk
 
 app = Flask(__name__)
 
@@ -32,4 +32,5 @@ def calculate_distance():
 
 @app.route('/autocomplete', methods=['GET'])
 def autofill_address():
-    return ttpy.geocoding(request.args.get("query"))
+    sdk = TravelTimeSdk(app_config.tt_app_id, app_config.tt_api_key)
+    return sdk.geocoding(request.args.get("query")).dict()
