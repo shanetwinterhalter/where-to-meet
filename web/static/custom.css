@@ -42,3 +42,9 @@ input[type="number"] {
 	  justify-content: start !important;
 	}
 }
+
+@media only screen and (max-width: 767px) {
+  .media {
+    justify-content: center !important;
+  }
+}
