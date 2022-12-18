@@ -2,62 +2,62 @@
 
 {% block content %}
 <!--Tag for API response data-->
-<meta id="response_data_tag" data-key='{{ response_data | tojson }}'>
 <div class="row media" style="--bs-gutter-x: 0;">
-    {% if response_data.source_addresses | length > 0 %}
     <div id="map" class="fill position-fixed"></div>
-    {% endif %}
-    <div class="col-auto gy-2 gx-2" id="info">   
+    <div class="col-auto gy-2 gx-2" id="info">
         <nav class="navbar navbar-light d-md-none">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </nav>
         <div class="collapse show d-lg-block" id="collapse">
-        <div class="card shadow" style="max-width: 50vh;">
-            <div id="card_content" class="container gy-3">
-                {% if response_data.error_addresses | length > 0 %}
-                <div class="justify-content-left">
-                    <p>We couldn't find some addresses:</p>
-                </div>
+            <div class="card shadow" style="max-width: 50vh;">
+                <div id="card_content" class="container gy-3">
+                    {% if response_data.error_addresses | length > 0 %}
+                    <div class="justify-content-left">
+                        <p>We couldn't find some addresses:</p>
+                    </div>
                     {% for location in response_data.error_addresses %}
-                <div class="text-justify">
-                    <p>{{ location.source_location }}</p>
-                </div>
+                    <div class="text-justify">
+                        <p>{{ location.source_location }}</p>
+                    </div>
                     {% endfor %}
-                <a href="/">
-                    <p class="d-flex justify-content-left">Click here to try again</p>
-                </a>
-                {% else %}
-                    {% if response_data.result_locations | length == 0 %}
-                <div class="text-justify">
                     <a href="/">
-                        <p class="d-flex justify-content-left">We didn't find any suitable locations, click here to try again with a larger travel time</p>
+                        <p class="d-flex justify-content-left">Click here to try again</p>
                     </a>
-                </div>
+                    {% else %}
+                    {% if response_data.result_locations | length == 0 %}
+                    <div class="text-justify">
+                        <a href="/">
+                            <p class="d-flex justify-content-left">We didn't find any suitable locations, click here to
+                                try again with a larger travel time</p>
+                        </a>
+                    </div>
                     {% elif response_data.result_locations | length > 5 %}
-                <p class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to reduce
-                        the travel time - click here to search again</a></p>
+                    <p class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to
+                            reduce
+                            the travel time - click here to search again</a></p>
                     {% endif %}
                     {% if response_data.result_locations | length > 0 %}
-                <p class="d-flex justify-content-left">Here's some places we found within {{ response_data.travel_time }} minutes:</p>
-                        {% for location in response_data.result_locations %}
-                <div class="text-justify">
-                    <a href="https://www.google.com/maps/@{{ location.centre_latitude }},{{ location.centre_longitude }},16z"
-                        target="_blank" rel="noopener noreferrer">
-                        <p>{{ location.centre_location }}</p>
-                    </a>
-                </div>
-                        {% endfor %}
+                    <p class="d-flex justify-content-left">Here's some places we found within {{
+                        response_data.travel_time }} minutes:</p>
+                    {% for location in response_data.result_locations %}
+                    <div class="text-justify">
+                        <a href="https://www.google.com/maps/@{{ location.centre_latitude }},{{ location.centre_longitude }},16z"
+                            target="_blank" rel="noopener noreferrer">
+                            <p>{{ location.centre_location }}</p>
+                        </a>
+                    </div>
+                    {% endfor %}
                     {% endif %}
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
+<meta id="response_data_tag" data-key='{{ response_data | tojson }}'>
 
-<script
-    src="https://maps.googleapis.com/maps/api/js?key={{ response_data.maps_api_key }}&callback=initMap&v=weekly"
+<script src="https://maps.googleapis.com/maps/api/js?key={{ response_data.maps_api_key }}&callback=initMap&v=weekly"
     defer></script>
 {% endblock %}
