@@ -1,34 +1,42 @@
 // Start by creating a clean map
 function createMap(centreLat, centreLng) {
-    return new google.maps.Map(document.getElementById("map"), {
+    if (centreLat == null || centreLng == null) {
+        var centreLat = 51.500743
+        var centreLng = -0.124658
+    };
+    map = new google.maps.Map(document.getElementById("map"), {
         center: { 
             lat: centreLat,
             lng: centreLng
         },
+        zoom: 15,
         disableDefaultUI: true
     });
+    return map
 }
 
 // Display source addresses on map
 function addSourceMarkers(map, sourceAddresses) {
     var maxZoom = 16
     var bounds = new google.maps.LatLngBounds();
-    for (let i = 0; i < sourceAddresses.length; i++) {
-        marker = new google.maps.Marker({
-            position: {
-                lat: sourceAddresses[i].latitude,
-                lng: sourceAddresses[i].longitude
-            },
-            map: map
-        });
-        bounds.extend(marker.getPosition())
-    }
+    if (sourceAddresses.length != 0) {
+        for (let i = 0; i < sourceAddresses.length; i++) {
+            marker = new google.maps.Marker({
+                position: {
+                    lat: sourceAddresses[i].latitude,
+                    lng: sourceAddresses[i].longitude
+                },
+                map: map
+            });
+            bounds.extend(marker.getPosition())
+        }
 
-    // Set map zoom to cover all source markers
-    if (sourceAddresses.length == 1) {
-        map.setZoom(maxZoom)
-    } else {
-        map.fitBounds(bounds, 96)
+        // Set map zoom to cover all source markers
+        if (sourceAddresses.length == 1) {
+            map.setZoom(maxZoom)
+        } else {
+            map.fitBounds(bounds, 96)
+        }
     }
     return bounds
 }
