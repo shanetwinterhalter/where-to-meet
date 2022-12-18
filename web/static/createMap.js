@@ -43,7 +43,9 @@ function addSourceMarkers(map, sourceAddresses) {
 
 // Adds shell overlays to show overlapping travel area
 function addShellOverlays(map, resultLocations) {
+    allShellBounds = [];
     for(let i = 0; i < resultLocations.length; i++) {
+        var shellBounds = new google.maps.LatLngBounds()
         overlay = new google.maps.Polygon({
             paths: resultLocations[i].shell_edges,
             strokeColor: "#878787",
@@ -53,6 +55,30 @@ function addShellOverlays(map, resultLocations) {
             fillOpacity: 0.35,
         });
         overlay.setMap(map);
+        overlay.getPath().forEach(element => {
+            shellBounds.extend(element);
+        })
+        allShellBounds.push(shellBounds)
+    }
+    return allShellBounds
+}
+
+function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        console.log(results)
+    }
+}
+
+// Search for places of interest at centre of each shell. 
+// If there isn't much in the shell, it might go outside it.
+function findPlacesOfInterest(map, shellBounds) {
+    for (let i = 0; i < shellBounds.length; i++) {
+        var request = {
+            bounds: shellBounds[i],
+            rankBy: google.maps.places.RankBy.PROMINENCE,
+        };
+        service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, callback);
     }
 }
 
@@ -62,5 +88,6 @@ function initMap() {
     map = createMap(responseData.map_centre.latitude,
                     responseData.map_centre.longitude);
     mapBounds = addSourceMarkers(map, responseData.source_addresses)
-    addShellOverlays(map, responseData.result_locations)
+    shellBounds = addShellOverlays(map, responseData.result_locations)
+    findPlacesOfInterest(map, shellBounds)
 }

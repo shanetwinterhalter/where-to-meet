@@ -58,6 +58,6 @@
 </div>
 <meta id="response_data_tag" data-key='{{ response_data | tojson }}'>
 
-<script src="https://maps.googleapis.com/maps/api/js?key={{ response_data.maps_api_key }}&callback=initMap&v=weekly"
+<script src="https://maps.googleapis.com/maps/api/js?key={{ response_data.maps_api_key }}&libraries=places&callback=initMap&v=weekly"
     defer></script>
 {% endblock %}
