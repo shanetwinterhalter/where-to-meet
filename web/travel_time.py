@@ -133,6 +133,5 @@ def calculate_centre(addresses):
         sum_lng += float(address['longitude'])
     return {
         "latitude": sum_lat/no_addresses,
-        "longitude": sum_lng/no_addresses,
-        "zoom": 12
+        "longitude": sum_lng/no_addresses
     }
