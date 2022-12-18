@@ -57,8 +57,7 @@ This is the JSON response schema from the server to the client.
     ]
     "map_centre": {
         "latitude": 51.50323,
-        "longitude": -0.56,
-        "zoom": 14
+        "longitude": -0.56
     },
     "result_locations": [
         {
