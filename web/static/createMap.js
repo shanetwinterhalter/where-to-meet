@@ -1,8 +1,8 @@
 // Start by creating a clean map
 function createMap(centreLat, centreLng) {
     if (centreLat == null || centreLng == null) {
-        var centreLat = 51.500743
-        var centreLng = -0.124658
+        var centreLat = 51.4780
+        var centreLng = 0
     };
     map = new google.maps.Map(document.getElementById("map"), {
         center: { 
