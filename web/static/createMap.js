@@ -83,7 +83,7 @@ function filterPlaceResults(results) {
 function callback(results, status, pagination) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         filteredResults = filterPlaceResults(results)
-        if (filteredResults.length < 10 && pagination && pagination.hasNextPage) {
+        if (filteredResults.length < 5 && pagination && pagination.hasNextPage) {
             pagination.nextPage();
         }
         // Write results to card here
