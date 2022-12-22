@@ -63,9 +63,31 @@ function addShellOverlays(map, resultLocations) {
     return allShellBounds
 }
 
-function callback(results, status) {
+// Remove all unwanted places from results - e.g. car parks and similar things
+function filterPlaceResults(results) {
+    var desiredTypes = ["amusement_park", "aquarium", "art_gallery", "bar", "movie_theater", "bowling_alley", "museum", "cafe", "night_club", "park", "casino", "restaurant", "shopping_mall", "spa", "tourist_attraction", "zoo"]
+    var filteredResults = []
+    for (let i = 0; i < results.length; i++) {
+        results[i].types.every(type => {
+            if (desiredTypes.includes(type)) {
+                filteredResults.push(results[i]);
+                return false;
+            } else {
+                return true;
+            }
+        })
+    }
+    return filteredResults
+}
+
+function callback(results, status, pagination) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-        console.log(results)
+        filteredResults = filterPlaceResults(results)
+        if (filteredResults.length < 10 && pagination && pagination.hasNextPage) {
+            pagination.nextPage();
+        }
+        // Write results to card here
+        console.log(filteredResults)
     }
 }
 
