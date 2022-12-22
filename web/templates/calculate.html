@@ -12,45 +12,29 @@
         </nav>
         <div class="collapse show d-lg-block" id="collapse">
             <div class="card shadow" style="max-width: 50vh;">
+                {% if response_data.error_addresses | length > 0 %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="close btn bg-transparent justify-content-left" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="alert-heading">We couldn't find some addresses</h4>
+                {% for location in response_data.error_addresses %}
+                    <p>{{ location.source_location }}</p>
+                {% endfor %}
+                </div>
+                {% endif %}
                 <div id="card_content" class="container gy-3">
-                    {% if response_data.error_addresses | length > 0 %}
-                    <div class="justify-content-left">
-                        <p>We couldn't find some addresses:</p>
-                    </div>
-                    {% for location in response_data.error_addresses %}
+                {% if response_data.result_locations | length == 0 %}
                     <div class="text-justify">
-                        <p>{{ location.source_location }}</p>
-                    </div>
-                    {% endfor %}
-                    <a href="/">
-                        <p class="d-flex justify-content-left">Click here to try again</p>
-                    </a>
-                    {% else %}
-                    {% if response_data.result_locations | length == 0 %}
-                    <div class="text-justify">
+                        <p class="d-flex justify-content-left">We couldn't find any suitable suggestions</p>
+                        <hr>
                         <a href="/">
-                            <p class="d-flex justify-content-left">We didn't find any suitable locations, click here to
-                                try again with a larger travel time</p>
+                            <p class="mb-3">Try again?</p>
                         </a>
                     </div>
-                    {% elif response_data.result_locations | length > 5 %}
-                    <p class="d-flex justify-content-left"><a href="/">We found a lot of results, you might want to
-                            reduce
-                            the travel time - click here to search again</a></p>
-                    {% endif %}
-                    {% if response_data.result_locations | length > 0 %}
-                    <p class="d-flex justify-content-left">Here's some places we found within {{
-                        response_data.travel_time }} minutes:</p>
-                    {% for location in response_data.result_locations %}
-                    <div class="text-justify">
-                        <a href="https://www.google.com/maps/@{{ location.centre_latitude }},{{ location.centre_longitude }},16z"
-                            target="_blank" rel="noopener noreferrer">
-                            <p>{{ location.centre_location }}</p>
-                        </a>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                    {% endif %}
+                {% else %}
+                    <p>Here are some suggestions - click a location to see it on the map:</p>
+                {% endif %}
                 </div>
             </div>
         </div>
