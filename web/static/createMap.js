@@ -86,6 +86,11 @@ function writeResultsToCard(resultTemplate, results) {
             var $elem = $(resultTemplate);
             $elem.find(".place_name").html(result.name);
             $elem.find(".rating").html(result.rating + "/5");
+            if (result.price_level != undefined) {
+                $elem.find(".price").html(result.price_level + "/4");
+            }
+            // TODO: Pick most relevant type instead of first
+            $elem.find(".type").html(result.types[0]);
             $elem.find(".address").html(result.vicinity);
             $($elem).appendTo('#card_content')
         })
