@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!--Tag for API response data-->
 <div class="row media" style="--bs-gutter-x: 0;">
     <div id="map" class="fill position-fixed"></div>
     <div class="col-auto gy-2 gx-2" id="info">
@@ -34,13 +33,24 @@
                     </div>
                 {% else %}
                     <p>Here are some suggestions - click a location to see it on the map:</p>
+                    <hr>
                 {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--Tag for API response data-->
 <meta id="response_data_tag" data-key='{{ response_data | tojson }}'>
+
+<template id="place-results-template">
+    <div class="row result-entry">
+        <h6 class="place_name"></h6>
+        <p class="rating"></p>
+        <p class="address"></p>
+    </div>
+    <hr>
+</template>
 
 <script src="https://maps.googleapis.com/maps/api/js?key={{ response_data.maps_api_key }}&libraries=places&callback=initMap&v=weekly"
     defer></script>

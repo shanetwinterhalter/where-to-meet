@@ -80,14 +80,27 @@ function filterPlaceResults(results) {
     return filteredResults
 }
 
+function writeResultsToCard(resultTemplate, results) {
+    results.forEach(result => {
+        jQuery($ => {
+            var $elem = $(resultTemplate);
+            $elem.find(".place_name").html(result.name);
+            $elem.find(".rating").html(result.rating + "/5");
+            $elem.find(".address").html(result.vicinity);
+            $($elem).appendTo('#card_content')
+        })
+    })
+}
+
 function callback(results, status, pagination) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
+        let resultTemplate = $('#place-results-template').html();
         filteredResults = filterPlaceResults(results)
+        console.log(filteredResults)
+        writeResultsToCard(resultTemplate, filteredResults)
         if (filteredResults.length < 5 && pagination && pagination.hasNextPage) {
             pagination.nextPage();
         }
-        // Write results to card here
-        console.log(filteredResults)
     }
 }
 
