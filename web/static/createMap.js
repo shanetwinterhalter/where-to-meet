@@ -68,14 +68,10 @@ function filterPlaceResults(results) {
     var desiredTypes = ["amusement_park", "aquarium", "art_gallery", "bar", "movie_theater", "bowling_alley", "museum", "cafe", "night_club", "park", "casino", "restaurant", "shopping_mall", "spa", "tourist_attraction", "zoo"]
     var filteredResults = []
     for (let i = 0; i < results.length; i++) {
-        results[i].types.every(type => {
-            if (desiredTypes.includes(type)) {
-                filteredResults.push(results[i]);
-                return false;
-            } else {
-                return true;
-            }
-        })
+        results[i].types = results[i].types.filter(value => desiredTypes.includes(value));
+        if (results[i].types.length > 0) {
+            filteredResults.push(results[i]);
+        }
     }
     return filteredResults
 }
@@ -85,11 +81,12 @@ function writeResultsToCard(resultTemplate, results) {
         jQuery($ => {
             var $elem = $(resultTemplate);
             $elem.find(".place_name").html(result.name);
-            $elem.find(".rating").html(result.rating + "/5");
+            $elem.find(".rating").html("*".repeat(result.rating));
             if (result.price_level != undefined) {
-                $elem.find(".price").html(result.price_level + "/4");
+                $elem.find(".price").html("£".repeat(result.price_level));
             }
             // TODO: Pick most relevant type instead of first
+            console.log(result.types)
             $elem.find(".type").html(result.types[0]);
             $elem.find(".address").html(result.vicinity);
             $($elem).appendTo('#card_content')
@@ -101,7 +98,6 @@ function callback(results, status, pagination) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         let resultTemplate = $('#place-results-template').html();
         filteredResults = filterPlaceResults(results)
-        console.log(filteredResults)
         writeResultsToCard(resultTemplate, filteredResults)
         if (filteredResults.length < 5 && pagination && pagination.hasNextPage) {
             pagination.nextPage();
