@@ -81,7 +81,6 @@ function setRating(element, value) {
     fullStars = Math.floor(value)
     halfStars = Math.abs(Math.round(value) - value) > 0.25 ? 1 : 0
     emptyStars = 5 - halfStars - fullStars
-    console.log(value)
     appendHtml = "<i class=\"fa fa-star\" aria-hidden=\"true\"></i>".repeat(fullStars) +
                  "<i class=\"fa fa-star-half-o\" aria-hidden=\"true\"></i>".repeat(halfStars) +
                  "<i class=\"fa fa-star-o\" aria-hidden=\"true\"></i>".repeat(emptyStars)
@@ -109,7 +108,6 @@ function writeResultsToCard(resultTemplate, results) {
     results.forEach(result => {
         jQuery($ => {
             var $elem = $(resultTemplate);
-            console.log(result.name)
             $elem.find(".place_name").html(result.name);
             setRating($elem.find(".rating"), result.rating);
             setPrice($elem.find(".price"), result.price_level);
