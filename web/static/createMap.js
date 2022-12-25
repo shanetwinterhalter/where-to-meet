@@ -86,7 +86,6 @@ function writeResultsToCard(resultTemplate, results) {
                 $elem.find(".price").html("£".repeat(result.price_level));
             }
             // TODO: Pick most relevant type instead of first
-            console.log(result.types)
             $elem.find(".type").html(result.types[0]);
             $elem.find(".address").html(result.vicinity);
             $($elem).appendTo('#card_content')
