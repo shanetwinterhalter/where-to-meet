@@ -76,18 +76,45 @@ function filterPlaceResults(results) {
     return filteredResults
 }
 
+function setRating(element, value) {
+    roundedValue = Math.round(value)
+    fullStars = Math.floor(value)
+    halfStars = Math.abs(Math.round(value) - value) > 0.25 ? 1 : 0
+    emptyStars = 5 - halfStars - fullStars
+    console.log(value)
+    appendHtml = "<i class=\"fa fa-star\" aria-hidden=\"true\"></i>".repeat(fullStars) +
+                 "<i class=\"fa fa-star-half-o\" aria-hidden=\"true\"></i>".repeat(halfStars) +
+                 "<i class=\"fa fa-star-o\" aria-hidden=\"true\"></i>".repeat(emptyStars)
+    element.html(appendHtml)
+}
+
+function setPrice(element, value) {
+    if (value != undefined) {
+        element.html(
+            "<i class=\"fa fa-gbp\" aria-hidden=\"true\"></i>".repeat(value)
+        );
+    }
+}
+
+function setLocationType(element, value) {
+    // TODO: Pick most relevant type instead of first
+    element.html(value[0])
+}
+
+function setAddress(element, value) {
+    element.html(value)
+}
+
 function writeResultsToCard(resultTemplate, results) {
     results.forEach(result => {
         jQuery($ => {
             var $elem = $(resultTemplate);
+            console.log(result.name)
             $elem.find(".place_name").html(result.name);
-            $elem.find(".rating").html("*".repeat(result.rating));
-            if (result.price_level != undefined) {
-                $elem.find(".price").html("£".repeat(result.price_level));
-            }
-            // TODO: Pick most relevant type instead of first
-            $elem.find(".type").html(result.types[0]);
-            $elem.find(".address").html(result.vicinity);
+            setRating($elem.find(".rating"), result.rating);
+            setPrice($elem.find(".price"), result.price_level);
+            setLocationType($elem.find(".type"), result.types);
+            setAddress($elem.find(".address"), result.vicinity);
             $($elem).appendTo('#card_content')
         })
     })
