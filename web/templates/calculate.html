@@ -5,11 +5,11 @@
     <div id="map" class="fill position-fixed"></div>
     <div class="col-auto gy-2 gx-2" id="info">
         <nav class="navbar navbar-light d-md-none">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapse">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsableResults">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </nav>
-        <div class="collapse show d-lg-block" id="collapse">
+        <div class="collapse show d-lg-block" id="collapsableResults">
             <div class="card shadow" style="max-width: 50vh;">
                 {% if response_data.error_addresses | length > 0 %}
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
