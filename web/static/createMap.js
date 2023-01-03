@@ -95,8 +95,11 @@ function setPrice(element, value) {
 }
 
 function setLocationType(element, value) {
-    // TODO: Pick most relevant type instead of first
-    element.html(value[0])
+    type = value[0].split("_")
+    for(i = 0; i < type.length; i++) {
+        type[i] = type[i][0].toUpperCase() + type[i].slice(1);
+    }
+    element.html(type.join(" "))
 }
 
 function setAddress(element, value) {
