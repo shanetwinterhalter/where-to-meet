@@ -1,3 +1,5 @@
+let map;
+
 // Start by creating a clean map
 function createMap(centreLat, centreLng) {
     if (centreLat == null || centreLng == null) {
@@ -12,11 +14,10 @@ function createMap(centreLat, centreLng) {
         zoom: 15,
         disableDefaultUI: true
     });
-    return map
 }
 
 // Display source addresses on map
-function addSourceMarkers(map, sourceAddresses) {
+function addSourceMarkers(sourceAddresses) {
     var maxZoom = 16
     var bounds = new google.maps.LatLngBounds();
     if (sourceAddresses.length != 0) {
@@ -42,7 +43,7 @@ function addSourceMarkers(map, sourceAddresses) {
 }
 
 // Adds shell overlays to show overlapping travel area
-function addShellOverlays(map, resultLocations) {
+function addShellOverlays(resultLocations) {
     allShellBounds = [];
     for(let i = 0; i < resultLocations.length; i++) {
         var shellBounds = new google.maps.LatLngBounds()
@@ -110,12 +111,18 @@ function writeResultsToCard(resultTemplate, results) {
     results.forEach(result => {
         jQuery($ => {
             var $elem = $(resultTemplate);
+            let result_number = $('.result-entry').length;
+            $elem.addClass("result" + result_number);
             $elem.find(".place_name").html(result.name);
             setRating($elem.find(".rating"), result.rating);
             setPrice($elem.find(".price"), result.price_level);
             setLocationType($elem.find(".type"), result.types);
             setAddress($elem.find(".address"), result.vicinity);
-            $($elem).appendTo('#card_content')
+            $elem.on('click', () => {
+                map.panTo(result.geometry.location);
+                map.setZoom(17);
+            });
+            $($elem).appendTo('#card_content');
         })
     })
 }
@@ -133,7 +140,7 @@ function callback(results, status, pagination) {
 
 // Search for places of interest at centre of each shell. 
 // If there isn't much in the shell, it might go outside it.
-function findPlacesOfInterest(map, shellBounds) {
+function findPlacesOfInterest(shellBounds) {
     for (let i = 0; i < shellBounds.length; i++) {
         var request = {
             bounds: shellBounds[i],
@@ -147,9 +154,9 @@ function findPlacesOfInterest(map, shellBounds) {
 function initMap() {
     // Obtain data from page
     var responseData = $("#response_data_tag").data("key");
-    map = createMap(responseData.map_centre.latitude,
+    createMap(responseData.map_centre.latitude,
                     responseData.map_centre.longitude);
-    mapBounds = addSourceMarkers(map, responseData.source_addresses)
-    shellBounds = addShellOverlays(map, responseData.result_locations)
-    findPlacesOfInterest(map, shellBounds)
+    mapBounds = addSourceMarkers(responseData.source_addresses);
+    shellBounds = addShellOverlays(responseData.result_locations);
+    findPlacesOfInterest(shellBounds);
 }

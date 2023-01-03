@@ -44,24 +44,26 @@
 <meta id="response_data_tag" data-key='{{ response_data | tojson }}'>
 
 <template id="place-results-template">
-    <div class="row result-entry">
-        <h6 class="place_name"></h6>
-    </div>
-    <div class="row">
-        <div class="col-auto">
-            <small><p class="type"></p></small>
+    <div class="result-entry">
+        <div class="row">
+            <h6 class="place_name"></h6>
         </div>
-        <div class="col-auto">
-            <small><p class="rating"></p></small>
+        <div class="row">
+            <div class="col-auto">
+                <small><p class="type"></p></small>
+            </div>
+            <div class="col-auto">
+                <small><p class="rating"></p></small>
+            </div>
+            <div class="col-auto">
+                <small><p class="price"></p></small>
+            </div>
         </div>
-        <div class="col-auto">
-            <small><p class="price"></p></small>
+        <div class="row">
+            <small><p class="address"></p></small>
         </div>
+        <hr>
     </div>
-    <div class="row">
-        <small><p class="address"></p></small>
-    </div>
-    <hr>
 </template>
 
 <script src="https://maps.googleapis.com/maps/api/js?key={{ response_data.maps_api_key }}&libraries=places&callback=initMap&v=weekly"
