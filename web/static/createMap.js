@@ -121,6 +121,11 @@ function writeResultsToCard(resultTemplate, results) {
             $elem.on('click', () => {
                 map.panTo(result.geometry.location);
                 map.setZoom(17);
+                var w = $("#collapsableResults");
+                if(w.hasClass('show')) {
+                    w.removeClass('show');
+                    w.height(0);
+                }
             });
             $($elem).appendTo('#card_content');
         })
