@@ -63,7 +63,6 @@ function addShellOverlays(map, resultLocations) {
     return allShellBounds
 }
 
-// Remove all unwanted places from results - e.g. car parks and similar things
 function filterPlaceResults(results) {
     var desiredTypes = ["amusement_park", "aquarium", "art_gallery", "bar", "movie_theater", "bowling_alley", "museum", "cafe", "night_club", "park", "casino", "restaurant", "shopping_mall", "spa", "tourist_attraction", "zoo"]
     var filteredResults = []
