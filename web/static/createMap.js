@@ -12,7 +12,8 @@ function createMap(centreLat, centreLng) {
             lng: centreLng
         },
         zoom: 15,
-        disableDefaultUI: true
+        disableDefaultUI: true,
+        zoomControl: true
     });
 }
 
