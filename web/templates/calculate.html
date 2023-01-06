@@ -3,12 +3,14 @@
 {% block content %}
 <div class="row media" style="--bs-gutter-x: 0;">
     <div id="map" class="fill position-fixed"></div>
-    <div class="col-auto gy-2 gx-2" id="info">
+    <div class="col-auto gy-2 gx-2">
         <nav class="navbar navbar-light d-md-none">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsableResults">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </nav>
+    </div>
+    <div class="col-auto gy-2 gx-2">
         <div class="collapse show d-lg-block" id="collapsableResults">
             <div class="card shadow" style="max-width: 50vh;">
                 {% if response_data.error_addresses | length > 0 %}
