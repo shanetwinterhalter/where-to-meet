@@ -10,7 +10,7 @@
                 </div>
                 <div>
                     <!-- Content here -->
-                    <p>Add your desired travel time (<{{max_time}} minutes), and some addresses to get some meeting place suggestions</p>
+                    <p>Add your desired travel time (<{{ max_time/60 }} hours), and some addresses to get some meeting place suggestions</p>
                     {% if submit_error %}
                     <p class="text-danger">You need to add some addresses</p>
                     {% endif %}
@@ -19,8 +19,7 @@
                             <div class="input-group mb-3">
                                 <div class="col-sm-3 justify-content-left">
                                     <div class="input-group">
-                                    <input type="number" class="form-control" id="travel_time_hours" name="travelTimeHours"
-                                    step="1" min="0" max="1">
+                                    <input type="number" class="form-control" id="travel_time_hours" name="travelTimeHours" step="1">
                                     <span class="input-group-text">h</span>
                                     <input type="number" class="form-control" id="travel_time_mins" name="travelTimeMins" min="0" max="60">
                                     <span class="input-group-text">m</span>

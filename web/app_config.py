@@ -8,7 +8,7 @@ tt_api_key = getenv('TRAVELTIME_KEY')
 tt_app_id = getenv('TRAVELTIME_ID')
 
 # This is determined by the TravelTime API
-max_time = 60
+max_time = 120
 # The value to use when the user doesn't enter a time
 default_time = 30
 
