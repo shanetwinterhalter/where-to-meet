@@ -2,8 +2,6 @@
 
 This is a web app that allows a user to input a number of addresses (up to 10) and a travel time and calculates good places for all those people to meet. 
 
-It is currently running at https://where-to-meet.herokuapp.com/
-
 # JSON Request Schema
 
 This is the JSON schema of the reques that is passed to the TravelTime API functions. This doesn't quite match what comes from the client, but the client information is converted into this.
